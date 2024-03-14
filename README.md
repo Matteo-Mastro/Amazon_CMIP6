@@ -1,1 +1,1 @@
-# Amazon_CMIP6
+# Repository containing code from my PhD
