@@ -1,1 +1,1 @@
-# Repository containing code from my PhD
+# Repository containing code and docs for the EGU Biogeosciences submission
