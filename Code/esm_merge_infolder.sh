@@ -1,12 +1,16 @@
 #!/bin/bash
+sudo mount -t drvfs F: /mnt/f
 
-cd "/mnt/d/Data/CMIP6"
-base="/mnt/d/Data/CMIP6"
+cd "/mnt/f/Data/CMIP6"
+base="/mnt/f/Data/CMIP6"
 
-scenario=(historical ssp585)
-model=(E3SM-1-1-ECA NorESM2-MM TaiESM1 BCC-CSM2-MR CanESM5 CMCC-ESM2 CNRM-ESM2-1 ACCESS-ESM1-5 IPSL-CM6A-LR MIROC-ES2L UKESM1-0-LL MPI-ESM1-2-LR CESM2-WACCM) 
+scenario=(historical)
 
-vars=(hfls rsds hurs lai) 
+# Baseline with 13 ESM
+model=(ACCESS-ESM1-5 BCC-CSM2-MR CanESM5 CESM2-WACCM CMCC-ESM2 CNRM-ESM2-1 E3SM-1-1-ECA IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR NorESM2-MM TaiESM1 UKESM1-0-LL) 
+
+# Remember to write variables with derivation (e.g. nep_Lmon)
+vars=(nbp_Lmon) 
 
 for mm in ${model[@]}; do  		## Loop over all models
 		
@@ -30,6 +34,16 @@ for mm in ${model[@]}; do  		## Loop over all models
 					fi
 
 				elif [ ${ss} = ssp585 ]; then
+
+					# if exist multiple files in time domain (with the same name)
+					if [ `ls -1 $f | wc -l ` -gt 1 ]; then			
+					echo "${mm} has multiple files in ${ss}/${rr}, merging ${vv}..."	
+					cdo mergetime ${f[@]} ${in_dir}/${vv}_${mm}_${ss}_${rr}_gn_201501-210012.nc
+					else								# is files are already merged in time
+					echo "${mm} already merged in ${ss}/${rr}, skipping..."
+					fi
+
+				elif [ ${ss} = ssp585-bgc ]; then
 
 					# if exist multiple files in time domain (with the same name)
 					if [ `ls -1 $f | wc -l ` -gt 1 ]; then			
