@@ -4,15 +4,17 @@ sudo mount -t drvfs F: /mnt/f
 cd "/mnt/f/Data/CMIP6"
 base="/mnt/f/Data/CMIP6"
 
-scenario=(historical ssp585)
+scenario=(historical)
 
 # Baseline with 13 ESM
-model=(ACCESS-ESM1-5 BCC-CSM2-MR CanESM5 CESM2-WACCM CMCC-ESM2 CNRM-ESM2-1 E3SM-1-1-ECA IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR NorESM2-LM NorESM2-MM TaiESM1 UKESM1-0-LL) 
+# model=(ACCESS-ESM1-5 BCC-CSM2-MR CanESM5 CESM2-WACCM CMCC-ESM2 CNRM-ESM2-1 E3SM-1-1-ECA IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR NorESM2-LM NorESM2-MM TaiESM1 UKESM1-0-LL) 
 # 1pctCO2-bgc with 11 ESM
 # model= #(ACCESS-ESM1-5 CanESM5 CESM2 CMCC-ESM2 CNRM-ESM2-1 IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR MRI-ESM2-0 NorESM2-LM UKESM1-0-LL) 
+# ssp585-bgc with 10 ESM
+model=(CESM2) #(ACCESS-ESM1-5 CanESM5 CNRM-ESM2-1 E3SM-1-1 E3SM-1-1-ECA GISS-E2-1-G-CC MIROC-ES2L MRI-ESM2-0 NorESM2-LM UKESM1-0-LL) 
 
 # Remember to write variables with derivation (e.g. nep_Lmon)
-vars=(hurs_Amon) #(hfls_Amon nep_Emon nbp_Lmon gpp_Lmon tas_Amon rsds_Amon hurs_Amon pr_Amon mrso_Lmon tos_Omon)
+vars=(ra_Lmon rh_Lmon) # hfls_Amon ra_Lmon rh_Lmon nep_Emon nbp_Lmon gpp_Lmon tas_Amon rsds_Amon hurs_Amon pr_Amon mrso_Lmon tos_Omon)
 
 for mm in ${model[@]}; do  		## Loop over all models
 		

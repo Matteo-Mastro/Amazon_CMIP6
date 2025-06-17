@@ -8,18 +8,18 @@ sudo mount -t drvfs F: /mnt/f
 base="/mnt/f/Data/CMIP6"
 out_dir="/mnt/f/Data/analysis"		    # HDEXT
 
-scenario=(historical ssp585)
+scenario=(historical)
 
 # 1pctCO2-bgc & 1pctCO2-rad with 11 ESM
 # model=(ACCESS-ESM1-5 CanESM5 CESM2 CMCC-ESM2 CNRM-ESM2-1 IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR MRI-ESM2-0 NorESM2-LM UKESM1-0-LL) 
-
+model=(CESM2)
 # ssp585-bgc with 7 ESM
-# model=(ACCESS-ESM1-5 CanESM5 CNRM-ESM2-1 MIROC-ES2L MRI-ESM2-0 NorESM2-LM UKESM1-0-LL)
+# model=(UKESM1-0-LL) #(ACCESS-ESM1-5 CanESM5 CNRM-ESM2-1 E3SM-1-1 E3SM-1-1-ECA GISS-E2-1-G-CC MIROC-ES2L MRI-ESM2-0 NorESM2-LM UKESM1-0-LL) 
 
 # historical and ssp585 with 13 ESM
-model=(MPI-ESM1-2-LR CESM2-WACCM) # (ACCESS-ESM1-5 BCC-CSM2-MR CanESM5 CESM2-WACCM CMCC-ESM2 CNRM-ESM2-1 E3SM-1-1-ECA IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR NorESM2-MM TaiESM1 UKESM1-0-LL) 
+# model=(MPI-ESM1-2-LR CESM2-WACCM) # (ACCESS-ESM1-5 BCC-CSM2-MR CanESM5 CESM2-WACCM CMCC-ESM2 CNRM-ESM2-1 E3SM-1-1-ECA IPSL-CM6A-LR MIROC-ES2L MPI-ESM1-2-LR NorESM2-MM TaiESM1 UKESM1-0-LL) 
 
-var=hurs #(hfls nep nbp gpp tas rsds hurs pr mrso)
+var=(ra_Lmon rh_Lmon)  #(hfls ra rh nep nbp gpp tas rsds hurs pr mrso)
 
 for ss in ${scenario[@]}; do		## Loop over all scenarios
 
@@ -31,11 +31,12 @@ for ss in ${scenario[@]}; do		## Loop over all scenarios
             for rr in ${realiz[@]}; do
 
 			#for 1pctCO2-bgc and -rad simulations
-			# dir="${base}"
+			# dir="${base}/${ss}"
 			# for ssp585 and historical
 			dir="${base}/${ss}/${mm}/${rr}"
 
-			f=($(ls ${dir}/${vv}_*_${mm}*))
+			f=($(ls ${dir}/${vv}_${mm}*))
+		
 
 			# Carbon fluxes (nep) - convert kgCm-2s-1 to gCm-2y-1 (multiply by 31536000 [s-1 to y-1] and 1000 [kgC to gC])
 			# pr - convert kgm-2s-1 to mm/month
@@ -77,7 +78,7 @@ for ss in ${scenario[@]}; do		## Loop over all scenarios
 				## -- 	# from "kgC m-2 s-1" to "gC m-2 y-1"
 				cdo -L -f nc -L -O -setcalendar,gregorian -setattribute,ter@units="gC m-2 y-1" -sellonlatbox,0,360,-35,35 -mulc,31563000000 -chname,rh,ter -enssum ${dir}/rh_* ${dir}/ra_* ${out_dir}/${scenario}/ter_${mm}_${ss}_${rr}.nc
 
-			elif [ ${vv} == rh ] || [ ${vv} == ra ]; then	
+			elif [ ${vv} == rh_Lmon ] || [ ${vv} == ra_Lmon ]; then	
 				## -- 	# from "kgC m-2 s-1" to "gC m-2 y-1"
 				cdo -L -f nc -L -O -setcalendar,gregorian -setattribute,rh@units="gC m-2 y-1" -sellonlatbox,0,360,-35,35 -mulc,31563000000 ${f} ${out_dir}/${ss}/${vv}_${mm}_${ss}_${rr}.nc
 
