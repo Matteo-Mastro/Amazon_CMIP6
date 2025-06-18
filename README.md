@@ -19,7 +19,7 @@ The repository is organized as follows.
             Figure 4,5,S10-S16.ipynb
             Figure S1,S17,S18.ipynb
             Figure 1,S2-S5.ipynb
-```bash
+```
 
 **environment.yml** is the conda environment containing the libraries used to perform the analysis.
 
