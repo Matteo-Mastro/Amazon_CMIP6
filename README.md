@@ -3,9 +3,10 @@ This repository contains the codes for the replication of the results presented 
 
 The repository is organized as follows.
 
+```bash
 /AMAZON_CMIP6
 │   README.md
-│
+│   environment.yml
 └───Code
     ├───preprocessing
     │       bash_variables_calc.sh
@@ -18,8 +19,9 @@ The repository is organized as follows.
             Figure 4,5,S10-S16.ipynb
             Figure S1,S17,S18.ipynb
             Figure 1,S2-S5.ipynb
+```bash
 
-*environment.yml* is the conda environment containing the libraries used to perform the analysis.
+**environment.yml** is the conda environment containing the libraries used to perform the analysis.
 
 In **preprocessing** are stored bash script used for preprocessing the original .nc data downloaded from the ESGF repository.
 
